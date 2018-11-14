@@ -18,7 +18,7 @@ module.exports = {
                     if (err) {
                         res.status(500).send({ error: err });
                     } else {
-                        res.status(200).send({ data: result });
+                        res.status(200).send({ data: result, token: result.generateJwt() });
                     }
                 })
             }
