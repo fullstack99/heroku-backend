@@ -26,20 +26,8 @@ module.exports = {
     },
 
     list(req, res) {
-        const pageId = 1;
-        if (typeof req.query.pageId != 'undefined')
-            pageId = req.query.pageId;
-            const data = [];
-
-        User.find(function (err, users) {
-            if (err) {
-                return res.status(500).send({ error: err });
-            }
-            for (let i = (pageId * 10 - 10); i < (pageId * 10); i++) {
-                if (!_.isNil(users[i]))
-                    data.push(users[i])
-            }
-            res.status(200).send({ data: data });
+        User.find({isAdmin: false}, function (err, users) {
+            res.status(200).send({ data: users });
         });
     },
 
@@ -49,21 +37,31 @@ module.exports = {
                 return res.status(500).send({ error: err });
             }
             if (user) {
-                fileUpload.uploadPhoto(req, function (err, pres) {
-                    user = _.merge(user, req.body);
-                    user.updatedOn = moment().format('YYYY-MM-DD');
-                    user.pictureUrl = pres;
-                    if (!_.isNil(req.body.password)) {
-                        user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
-                    }
+                // fileUpload.uploadPhoto(req, function (err, pres) {
+                //     user = _.merge(user, req.body);
+                //     user.updatedOn = moment().format('YYYY-MM-DD');
+                //     user.pictureUrl = pres;
+                //     if (!_.isNil(req.body.password)) {
+                //         user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
+                //     }
 
-                    user.save(function (error) {
-                        if (error) {
-                            return res.status(500).send({ error: error });
-                        } else {
-                            res.status(200).send({ data: user });
-                        }
-                    })
+                //     user.save(function (error) {
+                //         if (error) {
+                //             return res.status(500).send({ error: error });
+                //         } else {
+                //             res.status(200).send({ data: user });
+                //         }
+                //     })
+                // })
+
+                user = _.merge(user, req.body);
+
+                user.save(function (error) {
+                    if (error) {
+                        return res.status(500).send({ error: error });
+                    } else {
+                        res.status(200).send({ data: user });
+                    }
                 })
 
             } else {

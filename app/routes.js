@@ -11,7 +11,6 @@ module.exports = function(app, passport) {
     app.post('/api/users/login',
         passport.authenticate('local-login'), function(req, res) {
             if(req.user) {
-                console.log(123)
                 res.status(200).send({
                     data: req.user,
                     token: req.user.generateJwt()
@@ -28,10 +27,10 @@ module.exports = function(app, passport) {
     });
 
     app.post('/api/user', User.create);
-    app.get('/api/user', isLoggedIn, User.list);
-    app.get('/api/user/:userId', isLoggedIn, User.getOne);
-    app.delete('/api/user/:userId', isLoggedIn, User.remove);
-    app.put('/api/user/:userId', isLoggedIn, upload.array('files[]'), User.update);
+    app.get('/api/user', User.list);
+    app.get('/api/user/:userId', User.getOne);
+    app.delete('/api/user/:userId', User.remove);
+    app.put('/api/user/:userId', upload.array('files[]'), User.update);
 
     app.post('/api/appointment', Appointment.create);
     app.put('/api/appointment', Appointment.update);

@@ -5,8 +5,27 @@ const jwt = require('jsonwebtoken');
 const userSchema = mongoose.Schema({
     email: { type: String, default: "" },
     password: { type: String, default: "" },
-    firstName: String,
-    lastName: String
+    firstName: { type: String, default: "" },
+    lastName: { type: String, default: "" },
+    isAdmin: {type: Boolean, default: false},
+    lens: String,
+    frames: String,
+    warranty: String,
+    rightSphere: String,
+    rightCylinder: String,
+    rightAxis: String,
+    rightBase: String,
+    rightAdd: String,
+    rightDia: String,
+    leftSphere: String,
+    leftCylinder: String,
+    leftAxis: String,
+    leftBase: String,
+    leftAdd: String,
+    leftDia: String,
+    visionTitle: String,
+    visionContent: String,
+    doctorName: String
 },
 {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

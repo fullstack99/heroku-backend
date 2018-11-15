@@ -5,6 +5,8 @@ const Appointment = require('../models/appointment');
 module.exports = {
     create(req, res) {
         const appointment = new Appointment(req.body);
+        const startTime = new Date(req.body.startTime);
+        appointment.endTime = new Date(startTime.setTime(startTime.getTime() + (1 * 60 * 60 * 1000)));
         appointment.save(function (err, result) {
             if (err) {
                 return res.status(500).send({ error: err });
@@ -15,7 +17,6 @@ module.exports = {
     },
 
     update(req, res) {
-        console.log(req.body);
         Appointment.findById(req.body.id, function (err, appointment) {
             if (err) {
                 return res.status(500).send({ error: err });
